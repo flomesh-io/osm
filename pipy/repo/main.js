@@ -1,45 +1,49 @@
 (config =>
 
   pipy({
-    _version: '2022.05.01',
+    _version: '2022.05.07b',
+
     _targetCount: new stats.Counter('lb_target_cnt', ['target']),
 
     _specEnableEgress: config?.Spec?.Traffic?.EnableEgress,
 
+    // function : load `HttpServiceRouteRules` json
+    _dummyVar: config && (config.funcHttpServiceRouteRules = json => (
+      Object.fromEntries(Object.entries(json).map(
+        ([name, rule]) => [
+          name,
+          Object.entries(rule).map(
+            ([path, condition], _new) => (
+              _new = Object.fromEntries(Object.entries(condition).map(
+                ([k, v]) => [k, (
+                  ((k === 'Methods') && v && Object.fromEntries(v.map(e => [e, true]))) ||
+                  ((k === 'AllowedServices') && v && Object.fromEntries(v.map(e => [e, true]))) ||
+                  ((k === 'Headers') && v && Object.entries(v).map(([k, v]) => [k, new RegExp(v)])) ||
+                  ((k === 'TargetClusters') && v && new algo.RoundRobinLoadBalancer(v)) // Loadbalancer for services
+                  || v
+                )]
+              )),
+              _new['path'] = new RegExp(path), // HTTP request path
+              _new
+            )
+          )
+        ]
+      ))
+    )),
+
     _inTrafficMatches: config?.Inbound?.TrafficMatches && Object.fromEntries(
       Object.entries(config.Inbound.TrafficMatches).map(
-        ([k1, v1]) => [
-          k1,
-          Object.keys(v1).forEach(
-            k2 => (
-              (k2 == 'Protocol' && v1[k2] == 'http' && (!config._probeTarget || !v1.SourceIPRanges) && (config._probeTarget = '127.0.0.1:' + k1)),
-              (k2 == 'TargetClusters') && v1[k2] && (v1['TargetClusters_'] = new algo.RoundRobinLoadBalancer(v1[k2])),
-              (k2 == 'SourceIPRanges') && v1[k2] && (v1['SourceIPRanges_'] = []) && v1[k2].map(e => (v1['SourceIPRanges_'].push(new Netmask(e)))),
-              (k2 == 'HttpServiceRouteRules') && v1[k2] && (
-                Object.entries(v1[k2]).map(
-                  ([k3, v3]) => [
-                    k3,
-                    Object.keys(v3).forEach(
-                      k4 => (
-                        Object.keys(v3[k4]).forEach(
-                          k5 => (
-                            (k5 == 'Methods') && (v3[k4]['Methods_'] = {}) && v3[k4][k5].map(
-                              v6 => v3[k4]['Methods_'][v6] = true),
-                            (k5 == 'Headers') && (v3[k4]['Headers_'] = {}) && Object.entries(v3[k4][k5]).map(
-                              ([k6, v6]) => (v3[k4]['Headers_'][k6] = new RegExp(v6))),
-                            (k5 == 'AllowedServices') && (v3[k4]['AllowedServices_'] = {}) && v3[k4][k5].map(
-                              v6 => v3[k4]['AllowedServices_'][v6] = true),
-                            (k5 == 'TargetClusters') && (v3[k4]['TargetClusters_'] = new algo.RoundRobinLoadBalancer(v3[k4][k5]))
-                          )
-                        ),
-                        (v3[k4]['path'] == undefined) && (v3[k4]['path'] = new RegExp(k4))
-                      )
-                    ) || v3
-                  ]
-                )
-              )
-            )
-          ) || v1
+        ([port, match]) => [
+          port, // local service port
+          Object.fromEntries(Object.entries(match).map(
+            ([k, v]) => [k, (
+              ((k === 'Protocol') && (v === 'http') && (!config._probeTarget || !match.SourceIPRanges) && (config._probeTarget = '127.0.0.1:' + port) && v) ||
+              ((k === 'TargetClusters') && v && new algo.RoundRobinLoadBalancer(v)) ||
+              ((k === 'SourceIPRanges') && v && v.map(e => new Netmask(e))) ||
+              ((k === 'HttpServiceRouteRules') && v && config.funcHttpServiceRouteRules(v)) 
+              || v
+            )]
+          ))
         ]
       )
     ),
@@ -54,54 +58,35 @@
     ),
 
     _outTrafficMatches: config?.Outbound?.TrafficMatches && config.Outbound.TrafficMatches.map(
-      (o => (
-        o.TargetClusters && (o['TargetClusters_'] = new algo.RoundRobinLoadBalancer(o.TargetClusters)),
-        o.DestinationIPRanges && (o['DestinationIPRanges_'] = []) &&
-        o.DestinationIPRanges.map(e => (o['DestinationIPRanges_'].push(new Netmask(e)))),
-        o.HttpServiceRouteRules &&
-        (Object.entries(o.HttpServiceRouteRules).map(
-          ([k3, v3]) => [
-            k3,
-            Object.keys(v3).forEach(
-              k4 => (
-                Object.keys(v3[k4]).forEach(
-                  k5 => (
-                    (k5 == 'Methods') && (v3[k4]['Methods_'] = {}) && v3[k4][k5].map(
-                      v6 => v3[k4]['Methods_'][v6] = true),
-                    (k5 == 'Headers') && (v3[k4]['Headers_'] = {}) && Object.entries(v3[k4][k5]).map(
-                      ([k6, v6]) => (v3[k4]['Headers_'][k6] = new RegExp(v6))),
-                    (k5 == 'AllowedServices') && (v3[k4]['AllowedServices_'] = {}) && v3[k4][k5].map(
-                      v6 => v3[k4]['AllowedServices_'][v6] = true),
-                    (k5 == 'TargetClusters') && (v3[k4]['TargetClusters_'] = new algo.RoundRobinLoadBalancer(v3[k4][k5]))
-                  )
-                ),
-                (v3[k4]['path'] == undefined) && (v3[k4]['path'] = new RegExp(k4))
-              )
-            ) || v3
-          ]
-        )),
-        o
-      ))
+      (o => Object.fromEntries(Object.entries(o).map(
+        ([k, v]) => [k, (
+          ((k === 'TargetClusters') && v && new algo.RoundRobinLoadBalancer(v)) ||
+          ((k === 'DestinationIPRanges') && v && v.map(e => new Netmask(e))) ||
+          ((k === 'HttpServiceRouteRules') && v && config.funcHttpServiceRouteRules(v)) ||
+          v
+        )]
+      )))
     ),
 
+    // Loadbalancer for endpoints
     _outClustersConfigs: config?.Outbound?.ClustersConfigs && Object.fromEntries(
-      Object.entries(
-        config.Outbound.ClustersConfigs).map(
+      Object.entries(config.Outbound.ClustersConfigs).map(
         ([k, v]) => [
           k, (new algo.RoundRobinLoadBalancer(v))
         ]
       )
     ),
 
+    // Set probe-target port
     _SpecProbes: config?.Spec?.Probes?.LivenessProbes && config.Spec.Probes.LivenessProbes[0]?.httpGet?.port == 15901 &&
       (config._probeScheme = config.Spec.Probes.LivenessProbes[0].httpGet.scheme) && !Boolean(config._probeTarget) &&
-      ((config._probeScheme == 'HTTP' && (config._probeTarget = '127.0.0.1:80')) ||
-        (config._probeScheme == 'HTTPS' && (config._probeTarget = '127.0.0.1:443'))) && (config._probePath = '/'),
+      ((config._probeScheme === 'HTTP' && (config._probeTarget = '127.0.0.1:80')) ||
+        (config._probeScheme === 'HTTPS' && (config._probeTarget = '127.0.0.1:443'))) && (config._probePath = '/'),
 
     _AllowedEndpoints: config?.AllowedEndpoints,
+    // PIPY admin port
     _prometheusTarget: '127.0.0.1:6060',
 
-    _inPort: undefined,
     _inMatch: undefined,
     _inTarget: undefined,
     _inProtocol: undefined,
@@ -115,7 +100,6 @@
     _outTarget: undefined,
     _outProtocol: undefined,
     _outSessionControl: null
-
   })
 
   // inbound
@@ -125,31 +109,34 @@
     // 'readTimeout': '5s'
   })
   .handleStreamStart(
-    (_target) => (
+    (_inPort, _target) => (
+      // client ip
       _inClientIP = __inbound.remoteAddress,
+
+      // Local service port
       _inPort = (__inbound?.destinationPort ? __inbound.destinationPort : '0'),
+
+      // Check the global whitelist
       _AllowedEndpoints && _AllowedEndpoints[_inClientIP] &&
       _inTrafficMatches && (_inMatch = _inTrafficMatches[_inPort]) &&
+      // Check the INBOUND whitelist
       (!Boolean(_inMatch['AllowedEndpoints']) || _inMatch['AllowedEndpoints'][_inClientIP]) &&
+      // HTTP protocol do L7 proxy, otherwise do L4 proxy.
       (
-        ((_inMatch['Protocol'] == 'http') && (_inProtocol = 'http')) ||
-        ((_target = _inMatch['TargetClusters_'].select()) &&
-          _inClustersConfigs[_target] && (_inTarget = _inClustersConfigs[_target].select()))
+        // if
+        ((_inMatch['Protocol'] === 'http') && (_inProtocol = 'http')) ||
+        // else
+        ((_target = _inMatch['TargetClusters'].select()) && // service load balancer
+          _inClustersConfigs[_target] && (_inTarget = _inClustersConfigs[_target].select())) // endpoint load balancer
       ),
+
       _inSessionControl = {
         close: false
-      },
-
-      console.log('_inClientIP:' + _inClientIP),
-      console.log('_inPort: ' + _inPort),
-      console.log('_inProtocol: ' + _inProtocol),
-      console.log('i_target: ' + _target),
-      console.log('_inTarget: ' + _inTarget)
-
+      }
     )
   )
   .link(
-    'http_in', () => _inProtocol == 'http',
+    'http_in', () => _inProtocol === 'http',
     'connection_in', () => Boolean(_inTarget),
     'deny_in'
   )
@@ -161,26 +148,30 @@
   .pipeline('inbound')
   .handleMessageStart(
     (msg, _service, _route, _match, _target) => (
+      // If downstream is HTTP proxy, set _inXForwardedFor true
       msg.head?.headers['x-forwarded-for'] && (_inXForwardedFor = true),
-      ((_inMatch.SourceIPRanges_ && _inMatch.SourceIPRanges_.find(e => e.contains(_inClientIP)) && (_service = "*")) ||
-        (msg.head.headers?.host && (_service = _inMatch.HttpHostPort2Service[msg.head.headers.host]))) &&
-      (_route = _inMatch.HttpServiceRouteRules[_service]) && (_service == "*" || Boolean(msg.head.headers['serviceidentity'])) &&
-      (_match = Object.values(_route).find(o => (
+
+      // The SourceIPRanges is not null means INGRESS then set _service *,
+      // otherwise, match HTTP HOST.
+      (
+        // if
+        (_inMatch.SourceIPRanges && _inMatch.SourceIPRanges.find(e => e.contains(_inClientIP)) && (_service = "*")) ||
+        // else
+        (msg.head.headers['serviceidentity'] && msg.head.headers?.host && (_service = _inMatch.HttpHostPort2Service[msg.head.headers.host]))
+      )
+      // Find route rule by _service/hostname
+      &&
+      (_route = _inMatch.HttpServiceRouteRules[_service]),
+
+      // Apply route rules
+      _route &&
+      (_match = _route.find(o => (
         o.path.exec(msg.head.path) &&
-        (!o.Methods_ || o.Methods_[msg.head.method] || o.Methods_['*']) &&
-        (!o.AllowedServices_ || o.AllowedServices_[msg.head.headers['serviceidentity']] || o.AllowedServices_['*']) &&
-        (!o.Headers_ || Object.entries(o.Headers_).every(
-          h => msg.head.headers[h[0]] && h[1].exec(msg.head.headers[h[0]])
-        ))))) &&
-      (_target = _match.TargetClusters_.select()) && _inClustersConfigs[_target] && (_inTarget = _inClustersConfigs[_target].select()),
-
-      console.log(msg.head),
-      console.log('i_service: ' + _service),
-      console.log('i_route: ' + _route),
-      console.log('i_match: ' + _match),
-      console.log('i_target: ' + _target),
-      console.log('_inTarget: ' + _inTarget)
-
+        (!o.Methods || o.Methods[msg.head.method] || o.Methods['*']) &&
+        (!o.AllowedServices || o.AllowedServices[msg.head.headers['serviceidentity']] || o.AllowedServices['*']) &&
+        (!o.Headers || o.Headers.every(h => msg.head.headers[h[0]] && h[1].exec(msg.head.headers[h[0]])))))) &&
+      // RoundRobinLoadBalance ---> service ---> endpoint
+      (_target = _match.TargetClusters.select()) && _inClustersConfigs[_target] && (_inTarget = _inClustersConfigs[_target].select())
     )
   )
   .link(
@@ -189,8 +180,7 @@
   )
   .pipeline('request_in')
   .muxHTTP(
-    'connection_in',
-    () => _inTarget
+    'connection_in', () => _inTarget
   )
   .pipeline('connection_in')
   .connect(
@@ -217,34 +207,40 @@
   })
   .handleStreamStart(
     (_target) => (
+      // Upstream service port
       _outPort = (__inbound?.destinationPort ? __inbound.destinationPort : '0'),
+
+      // Upstream service IP
       _outIP = (__inbound?.destinationAddress ? __inbound.destinationAddress : '127.0.0.1'),
-      (_outMatch = (_outTrafficMatches && (
-        _outTrafficMatches.find(o => ((o.Port == _outPort) && o.DestinationIPRanges_ && o.DestinationIPRanges_.find(e => e.contains(_outIP)))) ||
-        _outTrafficMatches.find(o => ((o.Port == _outPort) && !Boolean(o.DestinationIPRanges_) &&
-          (o.Protocol == 'http' || o.Protocol == 'https' || (o.Protocol == 'tcp' && o.AllowedEgressTraffic))))))) && (
-        ((_outMatch['Protocol'] == 'http') && (_outProtocol = 'http')) ||
-        ((_target = (_outMatch['TargetClusters_'] && _outMatch['TargetClusters_'].select())) &&
-          _outClustersConfigs[_target] && (_outTarget = _outClustersConfigs[_target]?.select()))
-      ),
+
+      _outMatch = (_outTrafficMatches && (
+        // Strict matching Destination IP address
+        _outTrafficMatches.find(o => ((o.Port == _outPort) && o.DestinationIPRanges && o.DestinationIPRanges.find(e => e.contains(_outIP)))) ||
+        // EGRESS mode - does not check the IP
+        _outTrafficMatches.find(o => ((o.Port == _outPort) && !Boolean(o.DestinationIPRanges) &&
+          (o.Protocol === 'http' || o.Protocol === 'https' || (o.Protocol === 'tcp' && o.AllowedEgressTraffic))))
+      )),
+
+      // http protocol
+      _outMatch && (_outMatch['Protocol'] === 'http') && (_outProtocol = 'http'),
+
+      // non-http protocol
+      !Boolean(_outProtocol) && _outMatch &&
+      ((_target = (_outMatch['TargetClusters'] && _outMatch['TargetClusters'].select())) && // service load balancer
+        _outClustersConfigs[_target] && (_outTarget = _outClustersConfigs[_target]?.select())), // endpoint load balancer
+
+      // EGRESS mode
       (_outProtocol != 'http') && !Boolean(_outTarget) && (
         (_specEnableEgress || (_outMatch && _outMatch.AllowedEgressTraffic)) &&
-        (_outTarget = _outIP + ':' + _outPort)
-      ),
+        (_outTarget = _outIP + ':' + _outPort)), // original IP address and original port
+
       _outSessionControl = {
         close: false
-      },
-
-      console.log('_outPort: ' + _outPort),
-      console.log('_outIP ' + _outIP),
-      console.log('_outProtocol: ' + _outProtocol),
-      console.log('o_target: ' + _target),
-      console.log('_outTarget: ' + _outTarget)
-
+      }
     )
   )
   .link(
-    'http_out', () => _outProtocol == 'http',
+    'http_out', () => _outProtocol === 'http',
     'connection_out', () => Boolean(_outTarget),
     'deny_out'
   )
@@ -256,28 +252,31 @@
   .pipeline('outbound')
   .handleMessageStart(
     (msg, _service, _route, _match, _target) => (
+      // Find route by HTTP host
       msg.head.headers?.host && (_service = _outMatch.HttpHostPort2Service[msg.head.headers.host]) &&
-      (_route = _outMatch.HttpServiceRouteRules[_service]) &&
-      (_match = Object.values(_route).find(o => (
+      (_route = _outMatch.HttpServiceRouteRules[_service]),
+
+      // Apply route rules
+      _route &&
+      (_match = _route.find(o => (
         o.path.exec(msg.head.path) &&
-        (!o.Methods_ || o.Methods_[msg.head.method] || o.Methods_['*']) &&
-        (!o.AllowedServices_ || o.AllowedServices_[msg.head.headers['serviceidentity']] || o.AllowedServices_['*']) &&
-        (!o.Headers_ || Object.entries(o.Headers_).every(
-          h => msg.head.headers[h[0]] && h[1].exec(msg.head.headers[h[0]])
-        ))))) &&
-      (_target = _match.TargetClusters_.select()) && (_outTarget = _outClustersConfigs[_target].select()) &&
+        (!o.Methods || o.Methods[msg.head.method] || o.Methods['*']) &&
+        (!o.AllowedServices || o.AllowedServices[msg.head.headers['serviceidentity']] || o.AllowedServices['*']) &&
+        (!o.Headers || o.Headers.every(h => msg.head.headers[h[0]] && h[1].exec(msg.head.headers[h[0]])))
+      ))),
+
+      // RoundRobinLoadBalance ---> service ---> endpoint
+      _match &&
+      (_target = _match.TargetClusters.select()) && (_outTarget = _outClustersConfigs[_target].select()) &&
+      // Add serviceidentity for request authentication
       (msg.head.headers['serviceidentity'] = _outMatch.ServiceIdentity),
+
+      // EGRESS mode
       !Boolean(_outTarget) && (_specEnableEgress || (_outMatch && _outMatch.AllowedEgressTraffic)) &&
       (_outTarget = _outIP + ':' + _outPort),
-      _outTarget && _targetCount.withLabels(_outTarget).increase(),
 
-      console.log(msg.head),
-      console.log('o_service: ' + _service),
-      console.log('o_route: ' + _route),
-      console.log('o_match: ' + _match),
-      console.log('o_target: ' + _target),
-      console.log('_outTarget: ' + _outTarget)
-
+      // Loadbalancer metrics
+      _outTarget && _targetCount.withLabels(_outTarget).increase()
     )
   )
   .link(
@@ -286,8 +285,7 @@
   )
   .pipeline('request_out')
   .muxHTTP(
-    'connection_out',
-    () => _outTarget
+    'connection_out', () => _outTarget
   )
   .pipeline('connection_out')
   .connect(
@@ -306,14 +304,10 @@
     new StreamEnd('ConnectionReset')
   )
 
-  // .listen(14001)
-  // .serveHTTP(
-  //   new Message('Hi, there!\n')
-  // )
-
+  // liveness probe
   .listen(config?._probeScheme ? 15901 : 0)
   .link(
-    'http_liveness', () => config._probeScheme == 'HTTP',
+    'http_liveness', () => config._probeScheme === 'HTTP',
     'connection_liveness', () => Boolean(config._probeTarget),
     'deny_liveness'
   )
@@ -322,9 +316,8 @@
   .pipeline('message_liveness')
   .handleMessageStart(
     msg => (
-      msg.head.path == '/osm-liveness-probe' && (msg.head.path = '/liveness'),
-      config._probePath && (msg.head.path = config._probePath),
-      console.log('probe: ' + config._probeTarget + msg.head.path)
+      msg.head.path === '/osm-liveness-probe' && (msg.head.path = '/liveness'),
+      config._probePath && (msg.head.path = config._probePath)
     )
   )
   .muxHTTP('connection_liveness', config?._probeTarget)
@@ -335,9 +328,10 @@
     new StreamEnd('ConnectionReset')
   )
 
+  // readiness probe
   .listen(config?._probeScheme ? 15902 : 0)
   .link(
-    'http_readiness', () => config._probeScheme == 'HTTP',
+    'http_readiness', () => config._probeScheme === 'HTTP',
     'connection_readiness', () => Boolean(config._probeTarget),
     'deny_readiness'
   )
@@ -346,9 +340,8 @@
   .pipeline('message_readiness')
   .handleMessageStart(
     msg => (
-      msg.head.path == '/osm-readiness-probe' && (msg.head.path = '/readiness'),
-      config._probePath && (msg.head.path = config._probePath),
-      console.log('probe: ' + config._probeTarget + msg.head.path)
+      msg.head.path === '/osm-readiness-probe' && (msg.head.path = '/readiness'),
+      config._probePath && (msg.head.path = config._probePath)
     )
   )
   .muxHTTP('connection_readiness', config?._probeTarget)
@@ -359,9 +352,10 @@
     new StreamEnd('ConnectionReset')
   )
 
+  // startup probe
   .listen(config?._probeScheme ? 15903 : 0)
   .link(
-    'http_startup', () => config._probeScheme == 'HTTP',
+    'http_startup', () => config._probeScheme === 'HTTP',
     'connection_startup', () => Boolean(config._probeTarget),
     'deny_startup'
   )
@@ -370,9 +364,8 @@
   .pipeline('message_startup')
   .handleMessageStart(
     msg => (
-      msg.head.path == '/osm-startup-probe' && (msg.head.path = '/startup'),
-      config._probePath && (msg.head.path = config._probePath),
-      console.log('probe: ' + config._probeTarget + msg.head.path)
+      msg.head.path === '/osm-startup-probe' && (msg.head.path = '/startup'),
+      config._probePath && (msg.head.path = config._probePath)
     )
   )
   .muxHTTP('connection_startup', config?._probeTarget)
@@ -383,6 +376,7 @@
     new StreamEnd('ConnectionReset')
   )
 
+  // Prometheus collects metrics 
   .listen(15010)
   .link('http_prometheus')
   .pipeline('http_prometheus')
@@ -390,8 +384,8 @@
   .pipeline('message_prometheus')
   .handleMessageStart(
     msg => (
-      (msg.head.path == '/stats/prometheus' && (msg.head.path = '/metrics')) || (msg.head.path = '/stats' + msg.head.path),
-      console.log('prometheus: ' + _prometheusTarget + msg.head.path)
+      // Forward to PIPY
+      (msg.head.path === '/stats/prometheus' && (msg.head.path = '/metrics')) || (msg.head.path = '/stats' + msg.head.path)
     )
   )
   .muxHTTP('connection_prometheus', () => _prometheusTarget)
