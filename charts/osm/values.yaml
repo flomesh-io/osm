@@ -20,7 +20,7 @@ osm:
       # -- osm-injector's image name
       osmInjector: osm-injector
       # -- Sidecar init container's image name
-      osmSidecarInit: init
+      osmSidecarInit: osm-sidecar-init
       # -- osm-boostrap's image name
       osmBootstrap: osm-bootstrap
       # -- osm-crds' image name
