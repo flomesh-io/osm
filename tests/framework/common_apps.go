@@ -557,7 +557,7 @@ func (td *OsmTestData) GetOSSpecificHTTPBinPod(podName string, namespace string)
 		SimplePodAppDef{
 			PodName:   podName,
 			Namespace: namespace,
-			Image:     "kennethreitz/httpbin",
+			Image:     "flomesh/httpbin:ken",
 			Ports:     []int{80},
 			OS:        Td.ClusterOS,
 		})
@@ -581,7 +581,7 @@ func (td *OsmTestData) GetOSSpecificSleepPod(sourceNs string) (corev1.ServiceAcc
 		Namespace: sourceNs,
 		Command:   []string{"/bin/bash", "-c", "--"},
 		Args:      []string{"while true; do sleep 30; done;"},
-		Image:     "songrgg/alpine-debug",
+		Image:     "flomesh/alpine-debug",
 		Ports:     []int{80},
 		OS:        td.ClusterOS,
 	})
