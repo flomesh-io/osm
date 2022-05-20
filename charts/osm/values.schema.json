@@ -421,7 +421,7 @@
                     "title": "The sidecarImage schema",
                     "description": "The proxy side car image to run.",
                     "examples": [
-                        "flomesh/pipy-nightly:latest"
+                        "flomesh/pipy:latest"
                     ]
                 },
                 "curlImage": {
