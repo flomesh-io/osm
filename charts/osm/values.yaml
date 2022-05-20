@@ -224,6 +224,10 @@ osm:
   # -- Namespace to deploy OSM in. If not specified, the Helm release namespace is used.
   osmNamespace: ""
 
+  nodeSelector:
+    arch: amd64
+    os: linux
+
   # -- Deploy Jaeger during OSM installation
   deployJaeger: false
 

@@ -739,6 +739,36 @@
                         true
                     ]
                 },
+                "nodeSelector": {
+                    "$id": "#/properties/osm/properties/nodeSelector",
+                    "type": "object",
+                    "title": "NodeSelector",
+                    "description": "Dode Selector",
+                    "required": [
+                        "arch",
+                        "os"
+                    ],
+                    "properties": {
+                        "arch": {
+                            "$id": "#/properties/osm/properties/nodeSelector/properties/arch",
+                            "type": "string",
+                            "title": "kubernetes.io/arch",
+                            "description": "kubernetes.io/arch",
+                            "examples": [
+                                "amd64"
+                            ]
+                        },
+                        "os": {
+                            "$id": "#/properties/osm/properties/nodeSelector/properties/os",
+                            "type": "string",
+                            "title": "kubernetes.io/os",
+                            "description": "kubernetes.io/os",
+                            "examples": [
+                                "linux"
+                            ]
+                        }
+                    }
+                },
                 "tracing": {
                     "$id": "#/properties/osm/properties/tracing",
                     "type": "object",
