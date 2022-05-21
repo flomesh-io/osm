@@ -7,7 +7,7 @@ set -o pipefail
 # desired cluster name; default is "kind"
 KIND_CLUSTER_NAME="${KIND_CLUSTER_NAME:-osm}"
 
-KUBERNETES_NODE_ARCH="${KUBERNETES_NODE_ARCH:-amd64}"
+KUBERNETES_NODE_ARCH="${KUBERNETES_NODE_ARCH:-$(dpkg --print-architecture)}"
 
 # shellcheck disable=SC2086
 if kind get clusters | grep -q ^$KIND_CLUSTER_NAME$ ; then
