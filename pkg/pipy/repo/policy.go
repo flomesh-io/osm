@@ -190,10 +190,28 @@ func (itp *InboundTrafficPolicy) GetTrafficMatch(port Port) *InboundTrafficMatch
 	}
 }
 
-func (otp *OutboundTrafficPolicy) NewTrafficMatch() *OutboundTrafficMatch {
-	trafficMatch := new(OutboundTrafficMatch)
-	otp.TrafficMatches = append(otp.TrafficMatches, trafficMatch)
-	return trafficMatch
+func (otp *OutboundTrafficPolicy) NewTrafficMatch(port Port) *OutboundTrafficMatch {
+	if otp.TrafficMatches == nil {
+		otp.TrafficMatches = make(OutboundTrafficMatches)
+	}
+	if trafficMatch, exist := otp.TrafficMatches[port]; !exist || trafficMatch == nil {
+		trafficMatch = new(OutboundTrafficMatch)
+		otp.TrafficMatches[port] = trafficMatch
+		return trafficMatch
+	} else {
+		return trafficMatch
+	}
+}
+
+func (otp *OutboundTrafficPolicy) GetTrafficMatch(port Port) *OutboundTrafficMatch {
+	if otp.TrafficMatches == nil {
+		return nil
+	}
+	if trafficMatch, exist := otp.TrafficMatches[port]; exist {
+		return trafficMatch
+	} else {
+		return nil
+	}
 }
 
 func (hrrs *HttpRouteRules) NewHttpServiceRouteRule(pathReg URIPathRegexp) *HttpRouteRule {

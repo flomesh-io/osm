@@ -120,7 +120,7 @@ type OutboundTrafficMatch struct {
 	AllowedEgressTraffic bool
 	ServiceIdentity      identity.ServiceIdentity
 }
-type OutboundTrafficMatches []*OutboundTrafficMatch
+type OutboundTrafficMatches map[Port]*OutboundTrafficMatch
 
 type TrafficPolicy struct {
 	ClustersConfigs ClustersConfigs `json:"ClustersConfigs"`
