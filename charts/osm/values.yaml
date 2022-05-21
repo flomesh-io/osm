@@ -52,9 +52,9 @@ osm:
   # -- The class of the OSM Sidecar
   sidecarClass: pipy
   # -- Sidecar image for Linux workloads
-  sidecarImage: flomesh/pipy:latest
+  sidecarImage: flomesh/pipy-nightly:latest
   # -- Sidecar image for Windows workloads
-  sidecarWindowsImage: flomesh/pipy-windows-nightly:latest
+  sidecarWindowsImage: flomesh/pipy-nightly-windows-nightly:latest
   # -- Curl image for control plane init container
   curlImage: curlimages/curl
 
@@ -371,7 +371,7 @@ contour:
   sidecar:
     image:
       registry: docker.io
-      repository: flomesh/pipy
+      repository: flomesh/pipy-nightly
       tag: latest
 
 #
