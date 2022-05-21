@@ -6,6 +6,8 @@ set -aueo pipefail
 source .env
 DEPLOY_ON_OPENSHIFT="${DEPLOY_ON_OPENSHIFT:-false}"
 USE_PRIVATE_REGISTRY="${USE_PRIVATE_REGISTRY:-true}"
+KUBERNETES_NODE_ARCH="${KUBERNETES_NODE_ARCH:-amd64}"
+KUBERNETES_NODE_OS="${KUBERNETES_NODE_OS:-linux}"
 
 KUBE_CONTEXT=$(kubectl config current-context)
 
@@ -65,8 +67,8 @@ spec:
     spec:
       serviceAccountName: bookwarehouse
       nodeSelector:
-        kubernetes.io/arch: amd64
-        kubernetes.io/os: linux
+        kubernetes.io/arch: ${KUBERNETES_NODE_ARCH}
+        kubernetes.io/os: ${KUBERNETES_NODE_OS}
       containers:
         # Main container with APP
         - name: bookwarehouse
