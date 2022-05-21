@@ -22,6 +22,6 @@ find ${OSM_HOME}/dockerfiles -type f | xargs sed -i 's# localhost:5000/distroles
 find ${OSM_HOME}/dockerfiles -type f | xargs sed -i 's# localhost:5000/flomesh/proxy-wasm-cpp-sdk:v2 AS# flomesh/proxy-wasm-cpp-sdk:v2 AS#g'
 
 sed -i 's#sidecarImage: localhost:5000/envoyproxy/envoy#sidecarImage: envoyproxy/envoy#g' ${OSM_HOME}/charts/osm/values.yaml
-sed -i 's#sidecarImage: localhost:5000/flomesh/pipy-nightly#sidecarImage: flomesh/pipy-nightly#g' ${OSM_HOME}/charts/osm/values.yaml
+sed -i 's#sidecarImage: localhost:5000/flomesh/pipy#sidecarImage: flomesh/pipy#g' ${OSM_HOME}/charts/osm/values.yaml
 sed -i 's#curlImage: localhost:5000/curlimages/curl#curlImage: curlimages/curl#g' ${OSM_HOME}/charts/osm/values.yaml
 sed -i 's#docker.io#localhost:5000#g' ${OSM_HOME}/charts/osm/values.yaml
