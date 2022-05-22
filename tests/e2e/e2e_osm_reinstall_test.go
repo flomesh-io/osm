@@ -2,6 +2,7 @@ package e2e
 
 import (
 	"path/filepath"
+	"runtime"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -30,7 +31,7 @@ var _ = OSMDescribe("Test reinstalling OSM in the same namespace with the same m
 			By("Reinstalling OSM")
 			// Invoke the CLI directly because Td.InstallOSM unconditionally
 			// creates the namespace which fails when it already exists.
-			stdout, stderr, err = Td.RunLocal(filepath.FromSlash("../../bin/osm"), "install", "--verbose", "--timeout=5m", "--osm-namespace", opts.ControlPlaneNS, "--set", "osm.image.registry="+opts.ContainerRegistryLoc+",osm.image.tag="+opts.OsmImagetag)
+			stdout, stderr, err = Td.RunLocal(filepath.FromSlash("../../bin/osm"), "install", "--verbose", "--timeout=5m", "--osm-namespace", opts.ControlPlaneNS, "--set", "osm.image.registry="+opts.ContainerRegistryLoc+",osm.image.tag="+opts.OsmImagetag+",osm.nodeSelector.arch="+runtime.GOARCH)
 			Td.T.Log(stdout)
 			if err != nil {
 				Td.T.Logf("stderr:\n%s", stderr)
