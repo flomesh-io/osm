@@ -50,6 +50,9 @@ disable-wasm-stats:
 enable-wasm-stats:
 	scripts/enable-wasm-stats.sh ${OSM_HOME} ${BUILDARCH}
 
+pull-images:
+	scripts/pull-images.sh ${OSM_HOME} ${BUILDARCH}
+
 cache-osm-images:
 	scripts/cache-osm-images.sh ${OSM_HOME} ${BUILDARCH}
 
