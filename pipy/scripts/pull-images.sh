@@ -38,5 +38,9 @@ docker pull flomesh/httpbin:latest
 docker pull flomesh/httpbin:ken
 docker pull flomesh/proxy-wasm-cpp-sdk:v2
 
+docker pull quay.io/jetstack/cert-manager-controller:v1.3.1
+docker pull quay.io/jetstack/cert-manager-cainjector:v1.3.1
+docker pull quay.io/jetstack/cert-manager-webhook:v1.3.1
+
 docker pull gcr.io/distroless/base:latest
 docker pull gcr.io/distroless/static:latest

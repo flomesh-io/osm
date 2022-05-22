@@ -92,6 +92,9 @@ enable-port-forward-addr:
 disable-test-e2e-docker-build:
 	scripts/disable-test-e2e-docker-build.sh ${OSM_HOME}
 
+test-e2e:
+	scripts/e2e.sh ${OSM_HOME}
+
 once: .env secret adapter-os-arch
 	@echo
 	@echo "Please execute \"\033[1;32;40msource ~/.bashrc\033[0m\""
