@@ -68,6 +68,6 @@ allCases=(
 
 # shellcheck disable=SC2068
 for item in "${allCases[@]}"; do
-  echo -e "$item --"
+  echo -e "Testing $item ..."
   E2E_FLAGS="-ginkgo.focus='$item'" make test-e2e 2>/dev/null | grep 'Passed.*Failed.*Skipped'
 done
