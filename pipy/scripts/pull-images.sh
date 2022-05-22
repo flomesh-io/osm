@@ -15,28 +15,28 @@ fi
 OSM_HOME=$1
 BUILD_ARCH=$2
 
-docker pull docker.io/alpine:3
-docker pull docker.io/library/busybox:1.33
-docker pull docker.io/library/golang:1.17
-docker pull docker.io/envoyproxy/envoy:v1.19.3
-docker pull docker.io/projectcontour/contour:v1.18.0
-docker pull docker.io/flomesh/pipy:latest
-docker pull docker.io/flomesh/proxy-wasm-cpp-sdk:v2
-docker pull docker.io/prom/prometheus:v2.18.1
-docker pull docker.io/grafana/grafana:8.2.2
-docker pull docker.io/grafana/grafana-image-renderer:3.2.1
-docker pull docker.io/jaegertracing/all-in-one
-docker pull gcr.io/distroless/base:latest
-docker pull gcr.io/distroless/static:latest
-
-docker pull docker.io/devilbox/mysql:mysql-8.0
-docker pull docker.io/curlimages/curl:latest
-
-docker pull flomesh/httpbin:latest
-docker pull flomesh/httpbin:ken
+docker pull alpine:3
 docker pull busybox:latest
 docker pull curlimages/curl:latest
+docker pull curlimages/curl:latest
+docker pull devilbox/mysql:mysql-8.0
+docker pull envoyproxy/envoy:v1.19.3
 docker pull flomesh/alpine-debug:latest
+docker pull grafana/grafana:8.2.2
+docker pull grafana/grafana-image-renderer:3.2.1
+docker pull jaegertracing/all-in-one
+docker pull library/busybox:1.33
+docker pull library/golang:1.17
 docker pull nginx:1.19-alpine
+docker pull projectcontour/contour:v1.18.0
+docker pull prom/prometheus:v2.18.1
+
+docker pull flomesh/pipy:latest
 docker pull flomesh/grpcurl:latest
 docker pull flomesh/grpcbin:latest
+docker pull flomesh/httpbin:latest
+docker pull flomesh/httpbin:ken
+docker pull flomesh/proxy-wasm-cpp-sdk:v2
+
+docker pull gcr.io/distroless/base:latest
+docker pull gcr.io/distroless/static:latest
