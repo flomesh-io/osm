@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+set -uo pipefail
 
 if [ -z "$1" ]; then
   echo "Error: expected one argument OSM_HOME"
@@ -69,5 +69,5 @@ allCases=(
 # shellcheck disable=SC2068
 for item in "${allCases[@]}"; do
   echo -e "Testing $item ..."
-  E2E_FLAGS="-ginkgo.focus='$item'" make test-e2e 2>/dev/null | grep 'Passed.*Failed.*Skipped'
+  E2E_FLAGS="-ginkgo.focus='$item' --timeout=0" make test-e2e 2>/dev/null | grep 'Passed.*Failed.*Skipped'
 done
