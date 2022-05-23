@@ -63,7 +63,7 @@ allCases=(
 "HTTP traffic splitting with Permissive mode"
 "#Tests upgrading the control plane"
 "With SMI Traffic Target validation enabled"
-"ith SMI validation disabled"
+"With SMI validation disabled"
 )
 
 # shellcheck disable=SC2068
