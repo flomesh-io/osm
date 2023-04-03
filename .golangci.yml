@@ -44,5 +44,45 @@ issues:
     - linters:
         - staticcheck
       text: "SA1019:"
+    - linters:
+        - gosec
+      source: "^\\s+tokenPath = \"/var/run/secrets/kubernetes.io/serviceaccount/token\"$"
+      text: "G101:"
+    - linters:
+        - gosec
+      source: "^\\s+return unsafe.Pointer\\(&ip\\[0\\]\\), nil$"
+      text: "G103:"
+    - linters:
+        - gosec
+      source: "^\\s+c.net = \\*\\(\\*uint32\\)\\(unsafe.Pointer\\(&n.IP\\[12\\]\\)\\)$"
+      text: "G103:"
+    - linters:
+        - gosec
+      source: "^\\s+c.net = \\*\\(\\*uint32\\)\\(unsafe.Pointer\\(&n.IP\\[0\\]\\)\\)$"
+      text: "G103:"
+    - linters:
+        - gosec
+      source: "^\\s+in, err := os.Open\\(srcFilepath\\)$"
+      text: "G304:"
+    - linters:
+        - gosec
+      source: "^\\s+existingCNIConfig, err := os.ReadFile\\(cniConfigFilepath\\)$"
+      text: "G304:"
+    - linters:
+        - gosec
+      source: "^\\s+fd, err := os.Open\\(nspath\\)$"
+      text: "G304:"
+    - linters:
+        - gosec
+      source: "^\\s+cniConfig, err := os.ReadFile\\(path\\)$"
+      text: "G304:"
+    - linters:
+        - gosec
+      source: "^\\s+f, _ := os.Open\\(path\\)$"
+      text: "G304:"
+    - linters:
+        - gosec
+      source: "^\\s+defer resp.Body.Close\\(\\)$"
+      text: "G307:"
   exclude-use-default: false
 
