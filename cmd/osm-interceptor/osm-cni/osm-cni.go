@@ -17,5 +17,5 @@ func init() {
 
 func main() {
 	skel.PluginMain(plugin.CmdAdd, plugin.CmdCheck, plugin.CmdDelete, version.All,
-		fmt.Sprintf("CNI plugin osm-edge-cni %v", "0.1.0"))
+		fmt.Sprintf("CNI plugin osm-cni %v", "0.1.0"))
 }
