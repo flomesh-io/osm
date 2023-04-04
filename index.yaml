@@ -2,8 +2,24 @@ apiVersion: v1
 entries:
   osm:
   - apiVersion: v2
+    appVersion: latest-main
+    created: "2023-04-04T01:33:02.236129918Z"
+    dependencies:
+    - condition: contour.enabled
+      name: contour
+      repository: https://charts.bitnami.com/bitnami
+      version: 8.0.4
+    description: A Helm chart to install the OSM control plane on Kubernetes
+    digest: 9cf4de63b8dc2309fe8658983fb6b0fffa3f2211fb8da2b278ba2de3439e5413
+    kubeVersion: '>= 1.22.9-0'
+    name: osm
+    type: application
+    urls:
+    - https://flomesh-io.github.io/osm/osm-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
     appVersion: v1.1.0
-    created: "2022-04-14T19:34:39.477480499Z"
+    created: "2023-04-04T01:33:02.226779437Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -15,11 +31,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-1.1.0.tgz
+    - https://flomesh-io.github.io/osm/osm-1.1.0.tgz
     version: 1.1.0
   - apiVersion: v2
     appVersion: v1.1.0-rc.1
-    created: "2022-04-14T19:34:39.469332794Z"
+    created: "2023-04-04T01:33:02.220617348Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -31,11 +47,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-1.1.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-1.1.0-rc.1.tgz
     version: 1.1.0-rc.1
   - apiVersion: v2
     appVersion: v1.0.0
-    created: "2022-04-14T19:34:39.462987289Z"
+    created: "2023-04-04T01:33:02.21457906Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -47,11 +63,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-1.0.0.tgz
+    - https://flomesh-io.github.io/osm/osm-1.0.0.tgz
     version: 1.0.0
   - apiVersion: v2
     appVersion: v1.0.0-rc.4
-    created: "2022-04-14T19:34:39.455676384Z"
+    created: "2023-04-04T01:33:02.208847871Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -63,11 +79,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-1.0.0-rc.4.tgz
+    - https://flomesh-io.github.io/osm/osm-1.0.0-rc.4.tgz
     version: 1.0.0-rc.4
   - apiVersion: v2
     appVersion: v1.0.0-rc.3
-    created: "2022-04-14T19:34:39.449227779Z"
+    created: "2023-04-04T01:33:02.203486782Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -79,11 +95,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-1.0.0-rc.3.tgz
+    - https://flomesh-io.github.io/osm/osm-1.0.0-rc.3.tgz
     version: 1.0.0-rc.3
   - apiVersion: v2
     appVersion: v1.0.0-rc.2
-    created: "2022-04-14T19:34:39.441592973Z"
+    created: "2023-04-04T01:33:02.197022394Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -95,11 +111,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-1.0.0-rc.2.tgz
+    - https://flomesh-io.github.io/osm/osm-1.0.0-rc.2.tgz
     version: 1.0.0-rc.2
   - apiVersion: v2
     appVersion: v1.0.0-rc.1
-    created: "2022-04-14T19:34:39.435311569Z"
+    created: "2023-04-04T01:33:02.191292705Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -111,11 +127,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-1.0.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-1.0.0-rc.1.tgz
     version: 1.0.0-rc.1
   - apiVersion: v2
     appVersion: v0.11.1
-    created: "2022-04-14T19:34:39.515888827Z"
+    created: "2023-04-04T01:33:02.270880051Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -127,11 +143,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-v0.11.1.tgz
+    - https://flomesh-io.github.io/osm/osm-v0.11.1.tgz
     version: v0.11.1
   - apiVersion: v2
     appVersion: v0.11.1-rc.1
-    created: "2022-04-14T19:34:39.507564321Z"
+    created: "2023-04-04T01:33:02.264346664Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -143,11 +159,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-v0.11.1-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-v0.11.1-rc.1.tgz
     version: v0.11.1-rc.1
   - apiVersion: v2
     appVersion: v0.11.0
-    created: "2022-04-14T19:34:39.499384615Z"
+    created: "2023-04-04T01:33:02.253419185Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -159,11 +175,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-v0.11.0.tgz
+    - https://flomesh-io.github.io/osm/osm-v0.11.0.tgz
     version: v0.11.0
   - apiVersion: v2
     appVersion: v0.11.0-rc.3
-    created: "2022-04-14T19:34:39.49201261Z"
+    created: "2023-04-04T01:33:02.247793096Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -175,11 +191,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-v0.11.0-rc.3.tgz
+    - https://flomesh-io.github.io/osm/osm-v0.11.0-rc.3.tgz
     version: v0.11.0-rc.3
   - apiVersion: v2
     appVersion: v0.11.0-rc.1
-    created: "2022-04-14T19:34:39.484225104Z"
+    created: "2023-04-04T01:33:02.241620508Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -191,11 +207,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-v0.11.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-v0.11.0-rc.1.tgz
     version: v0.11.0-rc.1
   - apiVersion: v2
     appVersion: v0.10.0
-    created: "2022-04-14T19:34:39.369731021Z"
+    created: "2023-04-04T01:33:02.1424244Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -207,11 +223,11 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.10.0.tgz
+    - https://flomesh-io.github.io/osm/osm-0.10.0.tgz
     version: 0.10.0
   - apiVersion: v2
     appVersion: v0.10.0-rc.2
-    created: "2022-04-14T19:34:39.362010816Z"
+    created: "2023-04-04T01:33:02.135672813Z"
     dependencies:
     - condition: contour.enabled
       name: contour
@@ -223,273 +239,273 @@ entries:
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.10.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.10.0-rc.1.tgz
     version: 0.10.0-rc.1
   - apiVersion: v2
     appVersion: 0.9.2
-    created: "2022-04-14T19:34:39.420614358Z"
+    created: "2023-04-04T01:33:02.185138217Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 09b4b7bb2d2006b3a61754d6c9174f8c2f8a749a1d286bbf9b144aad873b4425
     kubeVersion: '>= 1.18.0-0'
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.9.2.tgz
+    - https://flomesh-io.github.io/osm/osm-0.9.2.tgz
     version: 0.9.2
   - apiVersion: v2
     appVersion: 0.9.2-rc.1
-    created: "2022-04-14T19:34:39.418662757Z"
+    created: "2023-04-04T01:33:02.18340942Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 7724f4365f050edc7738fbcfd8d7cca352fa00ad2de96e958cc1c386c9fe6d18
     kubeVersion: '>= 1.18.0-0'
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.9.2-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.9.2-rc.1.tgz
     version: 0.9.2-rc.1
   - apiVersion: v2
     appVersion: v0.9.1
-    created: "2022-04-14T19:34:39.416476855Z"
+    created: "2023-04-04T01:33:02.180349226Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 9f6081164177065f13cdc93d8abcb697d588694533dd617cd09b017aff005ca4
     kubeVersion: '>= 1.18.0'
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.9.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.9.1.tgz
     version: 0.9.1
   - apiVersion: v2
     appVersion: v0.9.1-rc.1
-    created: "2022-04-14T19:34:39.413854653Z"
+    created: "2023-04-04T01:33:02.17865573Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 0374616897cbd71f4fb665c1cd5c43186bab6f78fef5943f7f632fdd99456cd6
     kubeVersion: '>= 1.18.0'
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.9.1-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.9.1-rc.1.tgz
     version: 0.9.1-rc.1
   - apiVersion: v2
     appVersion: v0.9.0
-    created: "2022-04-14T19:34:39.411396152Z"
+    created: "2023-04-04T01:33:02.176954933Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 5f74c54e90d53c980e7cd0b0492215014507584ee6548d9bbf83676e819c6128
     kubeVersion: '>= 1.18.0'
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.9.0.tgz
+    - https://flomesh-io.github.io/osm/osm-0.9.0.tgz
     version: 0.9.0
   - apiVersion: v2
     appVersion: v0.9.0-rc.2
-    created: "2022-04-14T19:34:39.40920165Z"
+    created: "2023-04-04T01:33:02.175149936Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 696d70e78586a598b26bc4362840afe45471a7ff9f9f4f0c5ce62378559bcddb
     kubeVersion: '>= 1.18.0'
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.9.0-rc.2.tgz
+    - https://flomesh-io.github.io/osm/osm-0.9.0-rc.2.tgz
     version: 0.9.0-rc.2
   - apiVersion: v2
     appVersion: v0.9.0-rc.1
-    created: "2022-04-14T19:34:39.406954448Z"
+    created: "2023-04-04T01:33:02.172726741Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: d8aed4d698d45c9cb9912270f6f213920d5de545f203f9c479301da9addb7fd0
     kubeVersion: '>= 1.18.0'
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.9.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.9.0-rc.1.tgz
     version: 0.9.0-rc.1
   - apiVersion: v2
     appVersion: v0.8.4
-    created: "2022-04-14T19:34:39.404069846Z"
+    created: "2023-04-04T01:33:02.170575545Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: da765f808a954cbed3cade8ed27292b7ebb2eee3a7f94bc2c4fbceea617dd9ec
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.4.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.4.tgz
     version: 0.8.4
   - apiVersion: v2
     appVersion: v0.8.4-rc.1
-    created: "2022-04-14T19:34:39.402444345Z"
+    created: "2023-04-04T01:33:02.169141848Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 9a9da1cd3ea48536a794dfad3f020c06926239a5fbbd5dd3f84176d3d7a0dc99
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.4-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.4-rc.1.tgz
     version: 0.8.4-rc.1
   - apiVersion: v2
     appVersion: v0.8.3
-    created: "2022-04-14T19:34:39.400555644Z"
+    created: "2023-04-04T01:33:02.167797451Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: c7ec121a40d28d96f028160855c9bcf5d53ff6b94fc6ee80de70e1c9e0e97cac
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.3.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.3.tgz
     version: 0.8.3
   - apiVersion: v2
     appVersion: v0.8.3-rc.1
-    created: "2022-04-14T19:34:39.399074443Z"
+    created: "2023-04-04T01:33:02.165898354Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: e4f05c3d4c35ac403231a6fb47442afba4e651f3d85c81aa1c689e727a87e0a7
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.3-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.3-rc.1.tgz
     version: 0.8.3-rc.1
   - apiVersion: v2
     appVersion: v0.8.2
-    created: "2022-04-14T19:34:39.397280141Z"
+    created: "2023-04-04T01:33:02.163991458Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 9cd2b16aa0da4621a3eb62309252e981bf2fdc4c3464c9d0a5f29c54d94ad2c7
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.2.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.2.tgz
     version: 0.8.2
   - apiVersion: v2
     appVersion: v0.8.1-rc.2
-    created: "2022-04-14T19:34:39.392919438Z"
+    created: "2023-04-04T01:33:02.162410761Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: b328fe7489c2ed6159ae15e8ea2404f20c41869d213fba87824ee60bb4b2e400
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.1-rc.2.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.1-rc.2.tgz
     version: 0.8.1-rc.2
   - apiVersion: v2
     appVersion: v0.8.1-rc.1
-    created: "2022-04-14T19:34:39.390761137Z"
+    created: "2023-04-04T01:33:02.161059664Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 10886372a92b7b9d97b6db989b225bebd465719a662ef8089bb62f3a903fbe98
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.1-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.1-rc.1.tgz
     version: 0.8.1-rc.1
   - apiVersion: v2
     appVersion: v0.8.0
-    created: "2022-04-14T19:34:39.389231635Z"
+    created: "2023-04-04T01:33:02.159770566Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: ded0663cb4fdd8605f706a0cae304f3de72def67a3a5e35e57211ab7384f825d
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.0.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.0.tgz
     version: 0.8.0
   - apiVersion: v2
     appVersion: v0.8.0-rc.2
-    created: "2022-04-14T19:34:39.387664634Z"
+    created: "2023-04-04T01:33:02.15802547Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: c8e6955482f0bd257dca022bd69e1862c4f280a202d1e9ac1ab1c844bb22570d
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.0-rc.2.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.0-rc.2.tgz
     version: 0.8.0-rc.2
   - apiVersion: v2
     appVersion: v0.8.0-rc.1
-    created: "2022-04-14T19:34:39.386190733Z"
+    created: "2023-04-04T01:33:02.155869174Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 0f9feb2c9290e9155db738b9409d93c965e898f39750ca98eadd1bc1d46da690
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.8.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.8.0-rc.1.tgz
     version: 0.8.0-rc.1
   - apiVersion: v2
     appVersion: v0.7.0
-    created: "2022-04-14T19:34:39.384697532Z"
+    created: "2023-04-04T01:33:02.154094277Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: f2888572385f19f843fd7d37a3631fb22fa3a595fe1b250d170b68d161eddfdd
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.7.0.tgz
+    - https://flomesh-io.github.io/osm/osm-0.7.0.tgz
     version: 0.7.0
   - apiVersion: v2
     appVersion: v0.7.0-rc.1
-    created: "2022-04-14T19:34:39.382948131Z"
+    created: "2023-04-04T01:33:02.15287138Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 218be5b53626777d52644fe69d32e1f9d8208f565547d286d26771ec0447d1f2
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.7.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.7.0-rc.1.tgz
     version: 0.7.0-rc.1
   - apiVersion: v2
     appVersion: v0.6.1
-    created: "2022-04-14T19:34:39.380105229Z"
+    created: "2023-04-04T01:33:02.151581482Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 74f9aafca7819995b4d4ba9a77f6eedb54abed37337a61036b26c0a5b11b442d
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.6.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.6.1.tgz
     version: 0.6.1
   - apiVersion: v2
     appVersion: v0.6.0
-    created: "2022-04-14T19:34:39.378586328Z"
+    created: "2023-04-04T01:33:02.150367784Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: cf7b96f8d37b701167746e0ea1a7dc73dd7f7c0f4614408d6f64927dc05343aa
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.6.0.tgz
+    - https://flomesh-io.github.io/osm/osm-0.6.0.tgz
     version: 0.6.0
   - apiVersion: v2
     appVersion: v0.6.0-rc.1
-    created: "2022-04-14T19:34:39.377112627Z"
+    created: "2023-04-04T01:33:02.148734888Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 86c0b758ab2f6717539dcd5c77febd967ad5adcdb8572ba3c9e43ccb533f9f1d
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.6.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.6.0-rc.1.tgz
     version: 0.6.0-rc.1
   - apiVersion: v2
     appVersion: v0.5.0
-    created: "2022-04-14T19:34:39.375792526Z"
+    created: "2023-04-04T01:33:02.147080191Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: b42d1f7cc8732f8dd06e517889e496a01d4b41084d2cecf59efa9069a257093a
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.5.0.tgz
+    - https://flomesh-io.github.io/osm/osm-0.5.0.tgz
     version: 0.5.0
   - apiVersion: v2
     appVersion: v0.5.0-rc.1
-    created: "2022-04-14T19:34:39.374580125Z"
+    created: "2023-04-04T01:33:02.145372294Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 65ee2d8313097846fda3527208e91cf79e8920bb0891e36106b11a7234b30aa9
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.5.0-rc.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.5.0-rc.1.tgz
     version: 0.5.0-rc.1
   - apiVersion: v2
     appVersion: v0.4.2
-    created: "2022-04-14T19:34:39.372872124Z"
+    created: "2023-04-04T01:33:02.144408696Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 5817b75d955b07bae459871ea23b54133fc106b44761ef1821038a253d0ee135
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.4.2.tgz
+    - https://flomesh-io.github.io/osm/osm-0.4.2.tgz
     version: 0.4.2
   - apiVersion: v2
     appVersion: v0.4.1
-    created: "2022-04-14T19:34:39.370791922Z"
+    created: "2023-04-04T01:33:02.143540998Z"
     description: A Helm chart to install the OSM control plane on Kubernetes
     digest: 3b05115628f1c1081260ba6e151ceffeab48410f768347a160e42d25324da723
     name: osm
     type: application
     urls:
-    - https://openservicemesh.github.io/osm/osm-0.4.1.tgz
+    - https://flomesh-io.github.io/osm/osm-0.4.1.tgz
     version: 0.4.1
-generated: "2022-04-14T19:34:39.35377561Z"
+generated: "2023-04-04T01:33:02.128897326Z"
